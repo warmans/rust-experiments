@@ -7,11 +7,13 @@ pub mod storage {
     }
 
     pub struct Memory {
-        data: Arc<RwLock<collections::HashMap<String, String>>>
+        pub data: Arc<RwLock<collections::HashMap<String, String>>>
     }
 
     impl Memory {
         pub fn set(&mut self, key: &String, val: String) {
+            // if a poisoned mutex is encountered just panic because the programme is already
+            // broken.
             self.data.write().unwrap().insert(key.clone(), val);
         }
 
